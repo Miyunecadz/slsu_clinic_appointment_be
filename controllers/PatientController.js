@@ -36,7 +36,16 @@ const register = async (req,res) => {
     res.send( accountResult);
 }
 
+const all = async(req,res) => {
+    const patientsResult = await PatientRepository.all(true);
+
+    return res.json({
+        'result' : false,
+        "patients": patientsResult
+    });
+}
 
 module.exports = {
-    register
+    register,
+    all
 }
