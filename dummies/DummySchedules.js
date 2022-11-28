@@ -24,15 +24,18 @@ async function run() {
             date: dateToday,
             time: timeToday,
             service_type: 'Medical/Health Certificate',
-            created_at: dateTime
+            created_at: dateTime,
+            deleted_flag: false
         },
         {
             specialist_id: doctor.id,
             date: dateToday,
             time: timeToday,
             service_type: 'Provision of OTC Medication',
-            created_at: dateTime
+            created_at: dateTime,
+            deleted_flag: false
         },
+        
     ]
 
     await Schedule.createMany(dummyDataForDoctor);

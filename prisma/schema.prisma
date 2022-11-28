@@ -34,7 +34,6 @@ model Specialist {
   email String
   address String
   contact_number String
-  appointments Appointment[]
   schedules Schedule[]
 }
 
@@ -57,8 +56,6 @@ model Appointment {
   patient Patient @relation(fields: [patient_id], references: [id])
   patient_id String @db.ObjectId
   status String
-  specialist Specialist @relation(fields: [approved_by], references: [id])
-  approved_by String @db.ObjectId
   created_at DateTime
 }
 
@@ -70,5 +67,5 @@ model Schedule {
   time String
   service_type String
   created_at  String
-  deleted_at String?
+  deleted_flag Boolean
 }

@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node --watch ./bin/www",
-    "dev": "node ./bin/www"
+    "start": "nodemon ./bin/www",
+    "dev": "nodemon ./bin/www"
   },
   "dependencies": {
     "@prisma/client": "^4.6.1",
@@ -12,6 +12,7 @@
     "cors": "^2.8.5",
     "debug": "~2.6.9",
     "express": "~4.16.1",
+    "nodemon": "^2.0.20",
     "prisma": "^4.6.1"
   }
 }
