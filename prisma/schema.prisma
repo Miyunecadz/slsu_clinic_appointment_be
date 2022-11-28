@@ -69,6 +69,6 @@ model Schedule {
   date String
   time String
   service_type String
-  created_at  DateTime
-  deleted_at DateTime?
+  created_at  String
+  deleted_at String?
 }

@@ -7,8 +7,7 @@ const getTodaySchedules = async (req, res) => {
     var year = date_ob.getFullYear();
 
     const dateToday = year + "-" + month + "-" + day;
-    const schedules = Schedule.show({date: dateToday})
-
+    const schedules = await Schedule.showMany({date: dateToday})
     return res.json({
         'result': true,
         'schedules': schedules

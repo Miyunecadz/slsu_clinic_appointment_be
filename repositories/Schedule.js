@@ -32,4 +32,13 @@ module.exports = {
             where: condition
         })
     },
+
+    showMany: async (condition) => {
+        return await prisma.schedule.findMany({
+            where: condition,
+            include: {
+                specialist: true
+            }
+        })
+    },
 }
