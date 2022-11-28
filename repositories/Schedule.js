@@ -41,4 +41,11 @@ module.exports = {
             }
         })
     },
+
+    update: async(condition, data) => {
+        return await prisma.schedule.update({
+            where: condition,
+            data: data
+        })
+    }
 }

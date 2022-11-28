@@ -2,8 +2,7 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
-  previewFeatures = ["mongodb"]
+  provider        = "prisma-client-js"
 }
 
 datasource db {
@@ -12,60 +11,69 @@ datasource db {
 }
 
 model Account {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  username String @unique
-  password String
-  user_id String
+  id           String @id @default(auto()) @map("_id") @db.ObjectId
+  username     String @unique
+  password     String
+  user_id      String
   account_type Int
 }
 
 model Admin {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  first_name String
-  last_name String
+  id           String @id @default(auto()) @map("_id") @db.ObjectId
+  first_name   String
+  last_name    String
   display_name String
 }
 
 model Specialist {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  employee_id String
-  first_name String
-  last_name String
-  email String
-  address String
+  id             String     @id @default(auto()) @map("_id") @db.ObjectId
+  employee_id    String
+  first_name     String
+  last_name      String
+  email          String
+  address        String
   contact_number String
-  schedules Schedule[]
+  schedules      Schedule[]
 }
 
 model Patient {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  id_number String 
-  status String
-  first_name String
-  middle_name String?
-  last_name String
-  email String
-  gender String
+  id             String        @id @default(auto()) @map("_id") @db.ObjectId
+  id_number      String
+  status         String
+  first_name     String
+  middle_name    String?
+  last_name      String
+  email          String
+  gender         String
   contact_number String
-  address String
-  appointments Appointment[]
+  address        String
+  appointments   Appointment[]
 }
 
 model Appointment {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  patient Patient @relation(fields: [patient_id], references: [id])
-  patient_id String @db.ObjectId
-  status String
-  created_at DateTime
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  patient     Patient  @relation(fields: [patient_id], references: [id])
+  patient_id  String   @db.ObjectId
+  schedule    Schedule @relation(fields: [schedule_id], references: [id])
+  schedule_id String   @db.ObjectId
+  first_name     String
+  middle_name    String?
+  last_name      String
+  email          String
+  gender         String
+  contact_number String
+  status      String
+  created_at  String
 }
 
 model Schedule {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  specialist Specialist @relation(fields: [specialist_id], references: [id])
+  id            String        @id @default(auto()) @map("_id") @db.ObjectId
+  specialist    Specialist    @relation(fields: [specialist_id], references: [id])
   specialist_id String
-  date String
-  time String
-  service_type String
-  created_at  String
-  deleted_flag Boolean
+  date          String
+  time          String
+  service_type  String
+  created_at    String
+  deleted_flag  Boolean
+  Appointment   Appointment[]
 }

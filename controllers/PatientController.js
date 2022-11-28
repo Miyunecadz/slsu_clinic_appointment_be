@@ -20,7 +20,7 @@ const register = async (req,res) => {
     
         if(!patientResult)
         {
-            res.json({
+            return res.json({
                 'result': false,
                 'message': 'unable to register'
             })

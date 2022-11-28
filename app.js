@@ -8,6 +8,7 @@ var usersRouter = require('./routes/users');
 const patientRouter = require('./routes/patient');
 const authRouter = require('./routes/auth');
 const scheduleRouter = require('./routes/schedule');
+const appointmentRouter = require('./routes/appointment');
 
 var app = express();
 
@@ -22,5 +23,6 @@ app.use('/users', usersRouter);
 app.use('/patients', patientRouter);
 app.use('/auth', authRouter);
 app.use('/schedules', scheduleRouter)
+app.use('/appointments', appointmentRouter)
 
 module.exports = app;
