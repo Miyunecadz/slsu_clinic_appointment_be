@@ -7,6 +7,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const patientRouter = require('./routes/patient');
 const authRouter = require('./routes/auth');
+const scheduleRouter = require('./routes/schedule');
 
 var app = express();
 
@@ -20,5 +21,6 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/patients', patientRouter);
 app.use('/auth', authRouter);
+app.use('/schedules', scheduleRouter)
 
 module.exports = app;

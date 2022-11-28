@@ -7,5 +7,4 @@ router.get('/', PatientController.all)
 router.post('/', PatientController.register)
 
 
-
 module.exports = router;
