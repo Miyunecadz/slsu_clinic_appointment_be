@@ -12,6 +12,9 @@ module.exports = {
         return await prisma.appointment.findMany({
             where : {
                 patient_id: id
+            },
+            include: {
+                schedule: true
             }
         })
     }
