@@ -57,6 +57,24 @@ const setAppointment = async (req, res) => {
     })
 }
 
+const getAppointments = async(req,res) => {
+    const userId = req.body.userId
+    if(!userId)
+    {
+        return res.json({
+            'result' : false,
+            'message' : "User ID is required"
+        })
+    }
+
+    const appointments = await Appointment.findMany(userId)
+    return res.json({
+        'result': true,
+        "appointments": appointments 
+    })
+}
+
 module.exports = {
-    setAppointment
+    setAppointment,
+    getAppointments
 }
