@@ -2,7 +2,7 @@ const Appointment = require('../repositories/Appointment')
 const Schedule = require('../repositories/Schedule')
 
 const setAppointment = async (req, res) => {
-    // Need to refactory
+    // Need to refactor
     var date_ob = new Date();
     var day = ("0" + date_ob.getDate()).slice(-2);
     var month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
