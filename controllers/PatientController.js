@@ -16,13 +16,22 @@ const register = async (req,res) => {
             address: req.body.address
         }
     
+        const existResult = await PatientRepository.show({id_number: patient.id_number})
+        if(existResult)
+        {
+            return res.json({
+                'result': false,
+                'message': 'ID Number already exist'
+            })
+        }
+
         const patientResult = await PatientRepository.store(patient)
     
         if(!patientResult)
         {
             return res.json({
                 'result': false,
-                'message': 'unable to register'
+                'message': 'Unable to register'
             })
         }
     
