@@ -64,6 +64,8 @@ model Appointment {
   contact_number String
   status      String
   created_at  String
+  rating Int?
+  comment String?
 }
 
 model Schedule {
