@@ -1,4 +1,4 @@
-const Schedule = require("../repositories/Schedule")
+const Schedule = require("../models/Schedule")
 const { dateTime } = require('../helpers/date')
 
 const getTodaySchedules = async (req, res) => {

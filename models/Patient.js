@@ -4,8 +4,7 @@ const prisma = new PrismaClient()
 module.exports = {
 
     all: async (eagerLoad = false) => {
-        if(eagerLoad)
-        {
+        if (eagerLoad) {
             return await prisma.patient.findMany({
                 include: {
                     appointments: true
@@ -16,10 +15,10 @@ module.exports = {
         return await prisma.patient.findMany()
     },
 
-    store:  async (patient) => {
+    store: async (patient) => {
         return await prisma.patient.create({
             data: patient
-        })        
+        })
     },
 
     findById: async (id) => {
@@ -41,6 +40,13 @@ module.exports = {
             where: {
                 _id: id
             }
+        })
+    },
+
+    update: async (condition, data) => {
+        return await prisma.patient.update({
+            where: condition,
+            data: data
         })
     }
 

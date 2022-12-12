@@ -1,5 +1,5 @@
-const Appointment = require('../repositories/Appointment')
-const Schedule = require('../repositories/Schedule')
+const Appointment = require('../models/Appointment')
+const Schedule = require('../models/Schedule')
 
 const setAppointment = async (req, res) => {
     // Need to refactor

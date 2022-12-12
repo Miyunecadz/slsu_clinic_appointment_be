@@ -1,7 +1,7 @@
 const { md5 } = require('../helpers/hashing')
-const AccountRepository = require('../repositories/Account')
-const PatientRepository = require('../repositories/Patient')
-const SpecialistRepository = require('../repositories/Specialist')
+const AccountRepository = require('../models/Account')
+const PatientRepository = require('../models/Patient')
+const SpecialistRepository = require('../models/Specialist')
 
 const login = async (req, res) => {
     try {

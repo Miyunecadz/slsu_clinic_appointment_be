@@ -20,7 +20,7 @@ module.exports = {
     delete: async (id) => {
         return await prisma.account.delete({
             where: {
-                _id: id
+                id: id
             }
         })
     }
