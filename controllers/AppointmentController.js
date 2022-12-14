@@ -74,7 +74,73 @@ const getAppointments = async(req,res) => {
     })
 }
 
+const addAppointmentRating = async(req,res) => {
+    const appointmentId = req.body.appointmentId;
+    const rating = {
+        rating: req.body.rating,
+        comment: req.body.comment
+    }
+
+    const addRating = await Appointment.update(appointmentId, rating)
+    if(!addRating) {
+        return res.json({
+            result: false,
+            message: "Unable to add appointment rating"
+        })
+    }
+
+    return res.json({
+        result: true,
+        message: "Thank you for your feedback"
+    })
+}
+
+const approveAppointment = async(req,res) => {
+    const appointmentId = req.body.appointmentId
+    const data = {
+        status: "approved"
+    }
+
+    const approved = await Appointment.update(appointmentId, data)
+
+    if(!approved) {
+        return res.json({
+            result: false,
+            message: "Unable to approve appointment"
+        })
+    }
+
+    return res.json({
+        result:true,
+        message: "Appointment has been approved"
+    })
+}
+
+const rejectAppointment = async(req,res) => {
+    const appointmentId = req.body.appointmentId
+    const data = {
+        status: "reject"
+    }
+
+    const rejected = await Appointment.update(appointmentId, data)
+
+    if(!rejected) {
+        return res.json({
+            result: false,
+            message: "Unable to approve appointment"
+        })
+    }
+
+    return res.json({
+        result:true,
+        message: "Appointment has been rejected"
+    })
+}
+
 module.exports = {
     setAppointment,
-    getAppointments
+    getAppointments,
+    addAppointmentRating,
+    approveAppointment,
+    rejectAppointment
 }

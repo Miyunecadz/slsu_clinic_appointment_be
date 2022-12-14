@@ -38,7 +38,7 @@ module.exports = {
     delete: async (id) => {
         return await prisma.patient.delete({
             where: {
-                _id: id
+                id: id
             }
         })
     },

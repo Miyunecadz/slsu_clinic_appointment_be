@@ -17,5 +17,14 @@ module.exports = {
                 schedule: true
             }
         })
+    },
+
+    update: async(id, data) => {
+        return await prisma.appointment.update({
+            where: {
+                id: id
+            },
+            data: data
+        })
     }
 }

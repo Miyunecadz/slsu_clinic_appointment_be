@@ -17,6 +17,15 @@ module.exports = {
         })
     },
 
+    update: async (id, data) => {
+        return await prisma.account.update({
+            where: {
+                id: id
+            },
+            data: data
+        })
+    },
+
     delete: async (id) => {
         return await prisma.account.delete({
             where: {
