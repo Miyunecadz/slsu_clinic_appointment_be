@@ -19,6 +19,15 @@ module.exports = {
         })
     },
 
+    findManyCondition: async(condition) => {
+        return await prisma.appointment.findMany({
+            where: condition,
+            include: {
+                schedule: true
+            }
+        })
+    },
+
     update: async(id, data) => {
         return await prisma.appointment.update({
             where: {

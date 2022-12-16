@@ -2,6 +2,8 @@ const PatientRepository = require('../models/Patient')
 const AccountRepository = require('../models/Account')
 const { md5 } = require('../helpers/hashing')
 const Patient = require('../models/Patient')
+const Account = require('../models/Account')
+const Specialist = require('../models/Specialist')
 
 const register = async (req, res) => {
     try {
@@ -42,7 +44,7 @@ const register = async (req, res) => {
         }
 
         const accountResult = await AccountRepository.create(account)
-
+        patientResult.account_type = 3
         return res.json({
             'result': true,
             'message': 'New Account has been successfully registered',
@@ -93,6 +95,7 @@ const update = async (req, res) => {
         message: "Successfully updated the profile information"
     })
 }
+
 
 module.exports = {
     register,

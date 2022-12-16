@@ -1,5 +1,9 @@
 const Appointment = require('../models/Appointment')
 const Schedule = require('../models/Schedule')
+const Mailer = require('../helpers/mailer')
+const { setAppointmentTemplate, approveAppointmentTemplate } = require('../helpers/templates/mail.template')
+const { PrismaClient } = require('@prisma/client')
+const prisma = new PrismaClient()
 
 const setAppointment = async (req, res) => {
     // Need to refactor
@@ -26,6 +30,8 @@ const setAppointment = async (req, res) => {
         })
     }
 
+    const schedule = await Schedule.findById(req.body.schedule_id)
+
     const appointment = {
         patient_id: req.body.patient_id,
         schedule_id: req.body.schedule_id,
@@ -36,7 +42,8 @@ const setAppointment = async (req, res) => {
         gender: req.body.gender,
         contact_number: req.body.contact_number,
         status: "pending",
-        created_at: dateTime
+        created_at: dateTime,
+        specialist_id: schedule.specialist_id
     }
 
     const appointmentResult = await Appointment.store(appointment)
@@ -51,30 +58,43 @@ const setAppointment = async (req, res) => {
         })
     }
 
+    await Mailer.send(appointment.email, "Appointment has been set", setAppointmentTemplate(appointment.last_name, schedule.date, schedule.time, schedule.service_type))
+
     return res.json({
         "result": true,
         "message": "Appointment has been set!"
     })
 }
 
-const getAppointments = async(req,res) => {
+const getAppointments = async (req, res) => {
     const userId = req.body.userId
-    if(!userId)
-    {
+    if (!userId) {
         return res.json({
-            'result' : false,
-            'message' : "User ID is required"
+            'result': false,
+            'message': "User ID is required"
         })
     }
 
     const appointments = await Appointment.findMany(userId)
     return res.json({
         'result': true,
-        "appointments": appointments 
+        "appointments": appointments
     })
 }
 
-const addAppointmentRating = async(req,res) => {
+const getAppointmentBySpecialist = async (req, res) => {
+    const condition = {
+        specialist_id: req.param.specialistId
+    }
+    const appointments = await Appointment.findManyCondition(condition)
+
+    return res.json({
+        result: true,
+        appointments: appointments
+    })
+}
+
+const addAppointmentRating = async (req, res) => {
     const appointmentId = req.body.appointmentId;
     const rating = {
         rating: req.body.rating,
@@ -82,7 +102,7 @@ const addAppointmentRating = async(req,res) => {
     }
 
     const addRating = await Appointment.update(appointmentId, rating)
-    if(!addRating) {
+    if (!addRating) {
         return res.json({
             result: false,
             message: "Unable to add appointment rating"
@@ -95,15 +115,16 @@ const addAppointmentRating = async(req,res) => {
     })
 }
 
-const approveAppointment = async(req,res) => {
+const approveAppointment = async (req, res) => {
     const appointmentId = req.body.appointmentId
     const data = {
         status: "approved"
     }
 
-    const approved = await Appointment.update(appointmentId, data)
-
-    if(!approved) {
+    const appointment = await Appointment.update(appointmentId, data)
+    const schedule = await Schedule.findById(appointment.schedule_id)
+    await Mailer.send(appointment.email, "Appointment has been approved", approveAppointmentTemplate(appointment.last_name, schedule.service_type))
+    if (!appointment) {
         return res.json({
             result: false,
             message: "Unable to approve appointment"
@@ -111,12 +132,12 @@ const approveAppointment = async(req,res) => {
     }
 
     return res.json({
-        result:true,
+        result: true,
         message: "Appointment has been approved"
     })
 }
 
-const rejectAppointment = async(req,res) => {
+const rejectAppointment = async (req, res) => {
     const appointmentId = req.body.appointmentId
     const data = {
         status: "reject"
@@ -124,16 +145,59 @@ const rejectAppointment = async(req,res) => {
 
     const rejected = await Appointment.update(appointmentId, data)
 
-    if(!rejected) {
+    if (!rejected) {
         return res.json({
             result: false,
-            message: "Unable to approve appointment"
+            message: "Unable to reject appointment"
         })
     }
 
     return res.json({
-        result:true,
+        result: true,
         message: "Appointment has been rejected"
+    })
+}
+
+const searchByKeyword = async (req, res) => {
+    const keyword = req.body.keyword
+    const specialistId = req.body.specialist_id
+    const result = await prisma.appointment.findMany({
+        where: {
+            specialist_id: specialistId,
+            OR: [
+                {
+                    schedule: {
+                        service_type: {
+                            contains: keyword
+                        }
+                    }
+                },
+                {
+                    first_name: {
+                        contains: keyword
+                    }
+                },
+                {
+                    last_name: {
+                        contains: keyword
+                    }
+
+                },
+                {
+                    status: {
+                        contains: keyword
+                    }
+                }
+            ]
+        },
+        include: {
+            schedule: true
+        }
+    })
+
+    return res.json({
+        result: true,
+        appointment: result
     })
 }
 
@@ -142,5 +206,7 @@ module.exports = {
     getAppointments,
     addAppointmentRating,
     approveAppointment,
-    rejectAppointment
+    rejectAppointment,
+    getAppointmentBySpecialist,
+    searchByKeyword
 }

@@ -1,5 +1,7 @@
 const Schedule = require("../models/Schedule")
 const { dateTime } = require('../helpers/date')
+const { PrismaClient } = require('@prisma/client')
+const prisma = new PrismaClient()
 
 const getTodaySchedules = async (req, res) => {
     let date_ob = new Date();
@@ -32,7 +34,25 @@ const createSchedule = async (req, res) => {
     })
 }
 
+const getScheduleBySpecialist = async(req, res) => {
+    const specialistId = req.param.specialistId
+    const schedules = await prisma.schedule.findMany({
+        where: {
+            specialist_id: specialistId
+        },
+        include: {
+            Appointment: true
+        }
+    })
+
+    return res.json({
+        result: true,
+        schedules: schedules
+    })
+}
+
 module.exports = {
     createSchedule,
-    getTodaySchedules
+    getTodaySchedules,
+    getScheduleBySpecialist
 }

@@ -5,6 +5,6 @@ const ScheduleController = require('../controllers/ScheduleController')
 
 router.post('/', ScheduleController.createSchedule)
 router.get('/today', ScheduleController.getTodaySchedules)
-
+router.get('/:specialistId', ScheduleController.getScheduleBySpecialist)
 
 module.exports = router;

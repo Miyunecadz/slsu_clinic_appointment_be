@@ -43,4 +43,11 @@ module.exports = {
         })
     },
 
+    delete: async(id) => {
+        return await prisma.specialist.delete({
+            where: {
+                id: id
+            }
+        })
+    }
 }

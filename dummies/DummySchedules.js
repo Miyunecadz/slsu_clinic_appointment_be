@@ -1,5 +1,5 @@
-const Schedule = require('../repositories/Schedule')
-const Specialist = require('../repositories/Specialist')
+const Schedule = require('../models/Schedule')
+const Specialist = require('../models/Specialist')
 
 async function run() {
     const doctor = await Specialist.show({ employee_id: "1" })

@@ -66,6 +66,7 @@ model Appointment {
   created_at  String
   rating Int?
   comment String?
+  specialist_id String?
 }
 
 model Schedule {

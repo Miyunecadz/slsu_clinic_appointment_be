@@ -1,13 +1,7 @@
-const crypto = require('crypto')
+const mailer = require('./helpers/mailer')
 
-
-const create = async () => {
-   const password = '1234'
-   const md5 = crypto.createHash('md5').update(password).digest('hex')
-   const newHash = crypto.createHash('md5').update(password).digest('hex')
-
-   console.log(newHash, md5)
+async function send() {
+   await mailer.send("jvcadz.dev@gmail.com", "Sample", "Hello NodeMailer")
 }
 
-create();
-
+send()
