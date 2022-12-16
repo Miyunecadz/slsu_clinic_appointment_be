@@ -197,7 +197,7 @@ const searchByKeyword = async (req, res) => {
 
     return res.json({
         result: true,
-        appointment: result
+        appointments: result
     })
 }
 
