@@ -192,7 +192,12 @@ const searchByKeyword = async (req, res) => {
         },
         include: {
             schedule: true
-        }
+        },
+        orderBy: [
+            {
+                created_at: 'desc'
+            }
+        ]
     })
 
     return res.json({
