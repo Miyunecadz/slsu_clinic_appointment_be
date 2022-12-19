@@ -42,7 +42,12 @@ const getScheduleBySpecialist = async(req, res) => {
         },
         include: {
             Appointment: true
-        }
+        },
+        orderBy: [
+            {
+                created_at: 'desc'
+            }
+        ]
     })
 
     return res.json({
@@ -51,8 +56,39 @@ const getScheduleBySpecialist = async(req, res) => {
     })
 }
 
+const getScheduleOfSpecialistByKeyword = async(req,res) => {
+    const specialistId = req.param.specialistId
+    const keywords = req.body.keywords
+    const schedules = await prisma.schedule.findMany({
+        where: {
+            specialist_id: specialistId,
+            OR: [
+                {
+                    date: {
+                        contains: keywords
+                    }
+                }, {
+                    time: {
+                        contains: keywords
+                    }
+                }, {
+                    service_type: {
+                        contains: keywords
+                    }
+                }
+            ]
+        }
+    })
+
+    return res.json({
+        result: true,
+        schedules: await schedules
+    })
+}
+
 module.exports = {
     createSchedule,
     getTodaySchedules,
-    getScheduleBySpecialist
+    getScheduleBySpecialist,
+    getScheduleOfSpecialistByKeyword
 }
