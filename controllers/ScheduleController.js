@@ -42,7 +42,12 @@ const getScheduleBySpecialist = async(req, res) => {
         },
         include: {
             Appointment: true
-        }
+        },
+        orderBy: [
+            {
+                created_at: 'desc'
+            }
+        ]
     })
 
     return res.json({

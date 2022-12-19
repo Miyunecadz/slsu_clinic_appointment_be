@@ -33,6 +33,7 @@ model Specialist {
   email          String
   address        String
   contact_number String
+  delete_flag    Boolean?
   schedules      Schedule[]
 }
 

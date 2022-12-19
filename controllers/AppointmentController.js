@@ -108,7 +108,7 @@ const addAppointmentRating = async (req, res) => {
         })
     }
 
-    // try{
+    try{
         const addRating = await Appointment.update(appointmentId, rating)
         if (!addRating) {
             return res.json({
@@ -121,12 +121,12 @@ const addAppointmentRating = async (req, res) => {
             result: true,
             message: "Thank you for your feedback"
         })
-    // }catch(e) {
+    }catch(e) {
         return res.json({
             result: false,
             message: "Server error, contact the administrator"
         })
-    // }
+    }
 }
 
 const approveAppointment = async (req, res) => {
