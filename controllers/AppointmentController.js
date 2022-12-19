@@ -97,22 +97,36 @@ const getAppointmentBySpecialist = async (req, res) => {
 const addAppointmentRating = async (req, res) => {
     const appointmentId = req.body.appointmentId;
     const rating = {
-        rating: req.body.rating,
+        rating: Number.parseInt(req.body.rating),
         comment: req.body.comment
     }
 
-    const addRating = await Appointment.update(appointmentId, rating)
-    if (!addRating) {
+    if(!appointmentId || !rating) {
         return res.json({
             result: false,
-            message: "Unable to add appointment rating"
+            message: "Rating field is required"
         })
     }
 
-    return res.json({
-        result: true,
-        message: "Thank you for your feedback"
-    })
+    // try{
+        const addRating = await Appointment.update(appointmentId, rating)
+        if (!addRating) {
+            return res.json({
+                result: false,
+                message: "Unable to add appointment rating"
+            })
+        }
+    
+        return res.json({
+            result: true,
+            message: "Thank you for your feedback"
+        })
+    // }catch(e) {
+        return res.json({
+            result: false,
+            message: "Server error, contact the administrator"
+        })
+    // }
 }
 
 const approveAppointment = async (req, res) => {
@@ -192,12 +206,15 @@ const searchByKeyword = async (req, res) => {
         },
         include: {
             schedule: true
+        },
+        orderBy: {
+        created_at: "desc"
         }
     })
 
     return res.json({
         result: true,
-        appointments: result
+        appointments: await result
     })
 }
 

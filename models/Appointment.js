@@ -15,7 +15,10 @@ module.exports = {
             },
             include: {
                 schedule: true
-            }
+            },
+            orderBy: [{
+                created_at: "desc"
+            }]
         })
     },
 
@@ -24,7 +27,12 @@ module.exports = {
             where: condition,
             include: {
                 schedule: true
-            }
+            },
+            orderBy: [
+                {
+                    created_at: 'desc'
+                }
+            ]
         })
     },
 
