@@ -1,6 +1,7 @@
 const Specialist = require('../models/Specialist')
 const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
+const {md5} = require('../helpers/hashing')
 
 exports.dashboard = async(req,res) => {
     const patient = await prisma.patient.findMany()
@@ -70,5 +71,34 @@ exports.update = async(req,res) => {
     return res.json({
         result: true,
         message: "Specialist profile successfully updated"
+    })
+}
+
+exports.store = async(req,res) => {
+    const data = req.body
+
+    const result = await prisma.specialist.create({
+        data: data
+    })
+
+    const account = await prisma.account.create({
+        data: {
+            username: result.employee_id,
+            password: await md5('1234'),
+            user_id: result.id,
+            account_type: 2
+        }
+    })
+
+    if(!result) {
+        return res.json({
+            result: false,
+            message: "Unable to add specialist"
+        })
+    }
+
+    return res.json({
+        result: true,
+        message: "New specialist has been added!"
     })
 }
