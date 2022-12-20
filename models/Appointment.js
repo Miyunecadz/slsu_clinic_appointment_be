@@ -25,6 +25,11 @@ module.exports = {
     findManyCondition: async(condition) => {
         return await prisma.appointment.findMany({
             where: condition,
+            orderBy: [
+                {
+                    id: 'desc'
+                }
+            ],
             include: {
                 schedule: true
             },
